@@ -1,4 +1,4 @@
-package collections;
+package stas.collections;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

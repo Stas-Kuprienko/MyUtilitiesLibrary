@@ -1,4 +1,4 @@
-package exceptions;
+package stas.exceptions;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@SuppressWarnings("unused")
 public class HttpWebException extends Exception {
 
     private static final String messageAttrib = "message";

@@ -1,11 +1,10 @@
-package utilities;
+package stas.utilities;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@SuppressWarnings("unused")
 public class LoggerKit {
 
     private final ConcurrentHashMap<String, Logger> loggerMap;

@@ -3,6 +3,7 @@ package utilities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stas.utilities.UpdateFacility;
 
 public class UpdateFacilityTest {
 
@@ -37,7 +38,7 @@ public class UpdateFacilityTest {
     }
 
 
-    static class Person {
+    public static class Person {
 
         private String name;
         private int age;

@@ -1,4 +1,4 @@
-package http_tools;
+package stas.http_tools;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
 public class HttpRequestReader {
 
     private final HttpServletRequest request;

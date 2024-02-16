@@ -1,4 +1,4 @@
-package http_tools;
+package stas.http_tools;
 
 import java.util.ArrayList;
 

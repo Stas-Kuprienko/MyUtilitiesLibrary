@@ -1,6 +1,7 @@
 package collections;
 
 import org.junit.Test;
+import stas.collections.SimpleList;
 
 import java.util.ListIterator;
 

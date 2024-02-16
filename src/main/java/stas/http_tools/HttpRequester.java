@@ -1,33 +1,48 @@
-package http_tools;
+package stas.http_tools;
 
-import exceptions.HttpWebException;
+import stas.exceptions.HttpWebException;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-@SuppressWarnings("unused")
+import static stas.http_tools.HttpRequester.Property.*;
+
 public class HttpRequester {
 
+    private final String appForm;
     private final String url;
 
-    public HttpRequester(String url) {
+    private String authorization = "Bearer ";
+    private String charset = "UTF-8";
+
+    private HttpRequester(APP_FORM appForm, String url) {
+        this.appForm = appForm.value;
         this.url = url;
     }
 
+    public static HttpRequester getJSONRequester(String url) {
+        return new HttpRequester(APP_FORM.JSON, url);
+    }
 
-    public String sendHttpGetRequest(String jwt, String resource) throws IOException, HttpWebException {
+    public static HttpRequester getXWWWFormRequester(String url) {
+        return new HttpRequester(APP_FORM.X_WWW_FORM, url);
+    }
+
+
+    public String sendHttpGetRequest(String jwt, String resource, String query) throws IOException, HttpWebException {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
+        query = query == null || query.isEmpty() ? "" : "/?" + query;
         try {
-            URL url = new URL(this.url + resource);
+            URL url = new URL(this.url + resource + query);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            connection.setRequestProperty("Authorization", "Bearer " + jwt);
-            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty(AUTHORIZATION.value, authorization + jwt);
+            connection.setRequestProperty(CONTENT_TYPE.value, appForm);
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -80,7 +95,7 @@ public class HttpRequester {
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            connection.setRequestProperty("Authorization", "Bearer " + jwt);
+            connection.setRequestProperty(AUTHORIZATION.value, authorization + jwt);
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -114,9 +129,9 @@ public class HttpRequester {
             connection.setDoInput(true);
             connection.setDoOutput(true);
             byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("charset", "UTF-8");
-            connection.setRequestProperty("Content-Length", String.valueOf(requestBodyBytes.length));
+            connection.setRequestProperty(CONTENT_TYPE.value, appForm);
+            connection.setRequestProperty(CHARSET.value, charset);
+            connection.setRequestProperty(CONTENT_LENGTH.value, String.valueOf(requestBodyBytes.length));
             OutputStream output = connection.getOutputStream();
             output.write(requestBodyBytes);
             output.flush();
@@ -152,13 +167,13 @@ public class HttpRequester {
             connection.setRequestMethod(method);
             connection.setDoInput(true);
             connection.setDoOutput(true);
-            connection.setRequestProperty("Authorization", "Bearer " + jwt);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            connection.setRequestProperty("charset", "UTF-8");
+            connection.setRequestProperty(AUTHORIZATION.value, authorization + jwt);
+            connection.setRequestProperty(CONTENT_TYPE.value, appForm);
+            connection.setRequestProperty(CHARSET.value, charset);
             OutputStream output;
             if (requestBody != null && !requestBody.isEmpty()) {
                 byte[] requestBodyBytes = requestBody.getBytes(StandardCharsets.UTF_8);
-                connection.setRequestProperty("Content-Length", String.valueOf(requestBodyBytes.length));
+                connection.setRequestProperty(CONTENT_LENGTH.value, String.valueOf(requestBodyBytes.length));
                 output = connection.getOutputStream();
                 output.write(requestBodyBytes);
             } else {
@@ -185,6 +200,48 @@ public class HttpRequester {
             if (reader != null) {
                 reader.close();
             }
+        }
+    }
+
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    public String getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
+    }
+
+    enum Property {
+
+        AUTHORIZATION("Authorization"),
+        CONTENT_TYPE("Content-Type"),
+        CHARSET("charset"),
+        CONTENT_LENGTH("Content-Length");
+
+        final String value;
+
+        Property(String value) {
+            this.value = value;
+        }
+    }
+
+    enum APP_FORM {
+
+        X_WWW_FORM("application/x-www-form-urlencoded"),
+        JSON("application/json");
+
+        final String value;
+
+        APP_FORM(String value) {
+            this.value = value;
         }
     }
 }

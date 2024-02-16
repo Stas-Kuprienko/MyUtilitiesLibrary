@@ -1,9 +1,8 @@
-package utilities;
+package stas.utilities;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-@SuppressWarnings("unused")
 public class UpdateFacility<T> {
 
     private T updatable;

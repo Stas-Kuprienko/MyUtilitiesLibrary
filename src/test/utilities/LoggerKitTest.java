@@ -2,6 +2,7 @@ package utilities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import stas.utilities.LoggerKit;
 
 import java.lang.reflect.Field;
 import java.util.Map;

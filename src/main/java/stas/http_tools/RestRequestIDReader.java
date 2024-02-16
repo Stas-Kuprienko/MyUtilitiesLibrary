@@ -1,4 +1,4 @@
-package http_tools;
+package stas.http_tools;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
