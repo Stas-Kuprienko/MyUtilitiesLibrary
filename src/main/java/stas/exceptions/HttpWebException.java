@@ -50,7 +50,7 @@ public class HttpWebException extends Exception {
         BAD_REQUEST(400, "Bad Request", "Sorry, you have made an incorrect request"),
         UNAUTHORIZED(401, "Unauthorized", "Sorry, the request is made by an unauthorized user"),
         FORBIDDEN(403, "Forbidden", "Sorry, you cannot make this request"),
-        NOT_FOUND(404, "Not Found", "Sorry, the required user is not found"),
+        NOT_FOUND(404, "Not Found", "Sorry, that you requested is not found"),
         NOT_ALLOWED(405, "Not Allowed", "Sorry, the method cannot be applied to the current resource");
 
 
