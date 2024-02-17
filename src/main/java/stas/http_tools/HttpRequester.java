@@ -34,7 +34,7 @@ public class HttpRequester {
     public String sendHttpGetRequest(String jwt, String resource, String query) throws IOException, HttpWebException {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
-        query = query == null || query.isEmpty() ? "" : "/?" + query;
+        query = query == null || query.isEmpty() ? "" : '?' + query;
         try {
             URL url = new URL(this.url + resource + query);
             connection = (HttpURLConnection) url.openConnection();
