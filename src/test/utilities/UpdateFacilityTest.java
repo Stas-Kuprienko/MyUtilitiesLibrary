@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import stas.utilities.UpdateFacility;
 
+import java.time.LocalDate;
+
 public class UpdateFacilityTest {
 
     private UpdateFacility<Person> updateFacility;
@@ -23,10 +25,19 @@ public class UpdateFacilityTest {
     }
 
     @Test
-    public void testSetNewValue() throws ReflectiveOperationException {
+    public void testSetNewPrimitiveValue() throws ReflectiveOperationException {
         updateFacility.init(person, "age");
         updateFacility.setNewValue(30);
         Assertions.assertEquals(30, person.getAge());
+    }
+
+    @Test
+    public void testSetNewObjectValue() throws ReflectiveOperationException {
+        person.setBirthdate(LocalDate.now());
+        updateFacility.init(person, "birthdate");
+        String date = "1999-01-01";
+        updateFacility.setNewValue(date);
+        Assertions.assertEquals(LocalDate.parse(date), person.getBirthdate());
     }
 
     @Test
@@ -42,6 +53,7 @@ public class UpdateFacilityTest {
 
         private String name;
         private int age;
+        private LocalDate birthdate;
 
         public Person(String name, int age) {
             this.name = name;
@@ -62,6 +74,18 @@ public class UpdateFacilityTest {
 
         public void setAge(int age) {
             this.age = age;
+        }
+
+        public LocalDate getBirthdate() {
+            return birthdate;
+        }
+
+        public void setBirthdate(LocalDate birthdate) {
+            this.birthdate = birthdate;
+        }
+
+        public void setBirthdate(String birthdate) {
+            this.birthdate = LocalDate.parse(birthdate);
         }
     }
 }

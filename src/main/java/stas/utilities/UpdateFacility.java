@@ -18,16 +18,7 @@ public class UpdateFacility<T> {
         Class<?> setParameter = field.getType().isPrimitive() ? field.getType() : String.class;
         this.setter = clas.getMethod(concatenateMethodName(fieldToUpdate, "set"), setParameter);
         Method getter = clas.getMethod(concatenateMethodName(fieldToUpdate, "get"));
-        Object value = getter.invoke(updatable);
-        if (value != null && setParameter.isPrimitive()) {
-            this.previousValue = castToPrimitive(value, setParameter);
-        } else {
-            this.previousValue = setParameter.cast(value);
-        }
-    }
-
-    private Object castToPrimitive(Object value, Class<?> primitiveClass) {
-        return value;
+        this.previousValue = getter.invoke(updatable);
     }
 
     public void setNewValue(Object newValue) throws ReflectiveOperationException {
