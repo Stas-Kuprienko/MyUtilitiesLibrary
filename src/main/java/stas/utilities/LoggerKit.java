@@ -36,6 +36,15 @@ public class LoggerKit {
         return str.toString();
     }
 
+    public static String getStackTraceLines(StackTraceElement[] stackTrace, int linesNumber) {
+        StringBuilder str = new StringBuilder();
+        int i = 0;
+        while (i < linesNumber) {
+            str.append(stackTrace[i++].toString()).append('\n');
+        }
+        return str.toString();
+    }
+
 
     public void addLogger(Class<?> clas) {
         Logger logger = Logger.getLogger(clas.getName());
