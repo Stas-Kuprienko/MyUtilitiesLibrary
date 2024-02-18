@@ -19,6 +19,15 @@ public class LoggerKit {
     }
 
 
+    public static String buildStackTraceMessage(Exception e) {
+        StringBuilder str = new StringBuilder();
+        str.append(e.getMessage()).append('\n');
+        for (StackTraceElement ste : e.getStackTrace()) {
+            str.append(ste.toString()).append('\n');
+        }
+        return str.toString();
+    }
+
     public static String buildStackTraceMessage(StackTraceElement[] stackTrace) {
         StringBuilder str = new StringBuilder();
         for (StackTraceElement e : stackTrace) {
@@ -42,7 +51,7 @@ public class LoggerKit {
             doLog(this.getClass(), nullPointerException, Level.SEVERE);
             throw nullPointerException;
         } else {
-            logger.log(level, buildStackTraceMessage(e.getStackTrace()));
+            logger.log(level, buildStackTraceMessage(e));
         }
     }
 
